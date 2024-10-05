@@ -1,15 +1,16 @@
 .tile {
-    width: 20px;   /* 각 타일의 가로 크기 */
-    height: 20px;  /* 각 타일의 세로 크기 */
-    display: inline-block;  /* 타일을 블록처럼 배치 */
-    border: 1px solid black;  /* 각 타일 경계 확인을 위해 임시로 추가 */
+    width: 20px;   /* 각 타일의 크기 */
+    height: 20px;
+    display: inline-block;
+    border: 1px solid black;  /* 각 타일의 경계선 */
 }
 
 #grid {
     display: grid;
-    grid-template-columns: repeat(20, 20px);  /* 20개의 타일을 가로로 배치 */
-    grid-gap: 0;  /* 타일 사이의 간격을 0으로 설정 */
+    grid-template-columns: repeat(11, 20px);  /* 11개의 타일만 가로로 보여주기 */
+    grid-gap: 0;
 }
+
 
 .player {
     background-color: blue; /* 플레이어 위치를 표시 */
