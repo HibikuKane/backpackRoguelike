@@ -1,5 +1,3 @@
-// floorTile.js
-
 import { Tile } from './tile.js';
 
 export class FloorTile extends Tile {
@@ -8,7 +6,8 @@ export class FloorTile extends Tile {
         this.type = "floor";
     }
 
-    isWalkable() {
-        return true;
+    // 발판 타일 색상
+    getColor() {
+        return "lightgray";  // 발판 타일 색상 (디폴트)
     }
 }

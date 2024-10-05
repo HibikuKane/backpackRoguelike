@@ -1,5 +1,3 @@
-// voidTile.js
-
 import { Tile } from './tile.js';
 
 export class VoidTile extends Tile {
@@ -8,12 +6,17 @@ export class VoidTile extends Tile {
         this.type = "void";
     }
 
+    // 공허 타일의 색상 지정
+    getColor() {
+        return "black";  // 공허 타일은 검정색
+    }
+
     isWalkable() {
-        return true;  // 이동 가능
+        return true;  // 공허는 이동 가능
     }
 
     onStep(player) {
-        alert("You stepped into the void!");  // 공허 타일 경고
+        alert("You stepped into the void!");
         player.cancelMove();  // 이동 취소
     }
 }

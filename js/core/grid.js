@@ -1,13 +1,10 @@
-import { WallTile } from '../tile/wallTile.js';
-import { FloorTile } from '../tile/floorTile.js';
-import { VoidTile } from '../tile/voidTile.js';
+import { tileRegistry } from '../tile/tileRegistry.js';
 
 export class Grid {
     constructor(rows, cols) {
         this.rows = rows;
         this.cols = cols;
         this.grid = this.createGrid();
-        this.playerPosition = null;  // 플레이어 위치를 별도로 저장
     }
 
     // 그리드 생성
@@ -17,29 +14,23 @@ export class Grid {
             let rowArray = [];
             for (let col = 0; col < this.cols; col++) {
                 const rand = Math.random();
+
+                let tileType;
                 if (rand < 0.7) {
-                    rowArray.push(new FloorTile());
+                    tileType = 'floor';  // 발판 타일
                 } else if (rand < 0.9) {
-                    rowArray.push(new WallTile());
+                    tileType = 'wall';   // 벽 타일
                 } else {
-                    rowArray.push(new VoidTile());
+                    tileType = 'void';   // 공허 타일
                 }
+
+                // tileRegistry를 사용해 동적으로 타일 생성
+                const TileClass = tileRegistry[tileType];
+                rowArray.push(new TileClass());
             }
             grid.push(rowArray);
         }
         return grid;
-    }
-
-    // 플레이어 위치 설정
-    setPlayerPosition(x, y) {
-        if (this.isValidPosition(x, y)) {
-            this.playerPosition = { x: x, y: y };  // 플레이어 위치 저장
-        }
-    }
-
-    // 플레이어 위치 반환
-    getPlayerPosition() {
-        return this.playerPosition;
     }
 
     // 특정 위치의 타일 반환
@@ -50,8 +41,8 @@ export class Grid {
         return null;
     }
 
-    // 그리드 렌더링
-    renderGrid(elementId) {
+    // 그리드 렌더링 (플레이어 위치 포함)
+    renderGrid(elementId, player) {
         const gridElement = document.getElementById(elementId);
         gridElement.innerHTML = "";  // 기존 내용 지우기
 
@@ -71,7 +62,7 @@ export class Grid {
                 }
 
                 // 플레이어가 있는 위치면 파란색으로 표시
-                if (this.playerPosition && this.playerPosition.x === col && this.playerPosition.y === row) {
+                if (player && player.x === col && player.y === row) {
                     tile.style.backgroundColor = "blue";
                 }
 

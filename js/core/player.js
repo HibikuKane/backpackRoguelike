@@ -2,9 +2,8 @@ export class Player {
     constructor(x, y, grid) {
         this.x = x;
         this.y = y;
-        this.grid = grid;
+        this.grid = grid;  // 그리드와 상호작용
         this.previousPosition = { x: this.x, y: this.y };
-        this.updatePlayerPosition();
     }
 
     move(direction) {
@@ -37,17 +36,12 @@ export class Player {
             alert("You cannot walk here!");
         }
 
-        this.updatePlayerPosition();
+        this.grid.renderGrid('grid', this);  // 플레이어를 넘겨서 렌더링
     }
 
     cancelMove() {
         this.x = this.previousPosition.x;
         this.y = this.previousPosition.y;
-        this.updatePlayerPosition();
-    }
-
-    updatePlayerPosition() {
-        this.grid.setPlayerPosition(this.x, this.y);  // 플레이어 위치를 그리드에 반영
-        this.grid.renderGrid('grid');  // 그리드를 다시 렌더링
+        this.grid.renderGrid('grid', this);
     }
 }

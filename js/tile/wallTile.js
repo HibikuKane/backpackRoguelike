@@ -1,11 +1,14 @@
-// wallTile.js
-
 import { Tile } from './tile.js';
 
 export class WallTile extends Tile {
     constructor() {
         super();
         this.type = "wall";
+    }
+
+    // 벽 타일의 색상 지정
+    getColor() {
+        return "gray";  // 벽은 회색
     }
 
     isWalkable() {

@@ -1,8 +1,11 @@
-// tile.js
-
 export class Tile {
     constructor() {
-        this.type = "generic";  // 기본 타일 타입
+        this.type = "generic";
+    }
+
+    // 기본 색상 메서드 (void와 같은 기본 색상)
+    getColor() {
+        return "lightgray";  // 기본 발판 색상
     }
 
     isWalkable() {
@@ -10,6 +13,6 @@ export class Tile {
     }
 
     onStep(player) {
-        // 플레이어가 타일을 밟았을 때 동작 (하위 클래스에서 구현)
+        // 타일을 밟았을 때 동작 (상속받은 클래스에서 구현)
     }
 }
