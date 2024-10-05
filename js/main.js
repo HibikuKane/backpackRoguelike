@@ -1,16 +1,23 @@
+import DungeonGenerator from './dungeon/dungeonGenerator.js';
 import { Grid } from './core/grid.js';
 import { Player } from './core/player.js';
 
 function initGame() {
-    const rows = 10;
-    const cols = 10;
-    const grid = new Grid(rows, cols);
+    const rows = 20;
+    const cols = 20;
+    const roomCount = 10;
 
-    // 그리드 DOM에 렌더링
-    const player = new Player(0, 0, grid);
+    const dungeon = new DungeonGenerator(rows, cols, roomCount);
+    dungeon.generateDungeon();
+
+    const grid = new Grid(rows, cols);
+    grid.grid = dungeon.grid;  // 던전의 그리드를 게임 그리드에 적용
+
+    const player = new Player(1, 1, grid);
+    dungeon.placePlayer(player);  // 플레이어를 방에 배치
+
     grid.renderGrid('grid', player);
 
-    // 키보드 입력 처리
     document.addEventListener('keydown', (event) => {
         switch (event.key) {
             case "ArrowUp":
