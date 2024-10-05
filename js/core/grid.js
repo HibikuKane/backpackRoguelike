@@ -7,6 +7,7 @@ export class Grid {
         this.rows = rows;
         this.cols = cols;
         this.grid = this.createGrid();
+        this.playerPosition = null;  // 플레이어 위치를 별도로 저장
     }
 
     // 그리드 생성
@@ -29,6 +30,18 @@ export class Grid {
         return grid;
     }
 
+    // 플레이어 위치 설정
+    setPlayerPosition(x, y) {
+        if (this.isValidPosition(x, y)) {
+            this.playerPosition = { x: x, y: y };  // 플레이어 위치 저장
+        }
+    }
+
+    // 플레이어 위치 반환
+    getPlayerPosition() {
+        return this.playerPosition;
+    }
+
     // 특정 위치의 타일 반환
     getTile(x, y) {
         if (this.isValidPosition(x, y)) {
@@ -41,6 +54,7 @@ export class Grid {
     renderGrid(elementId) {
         const gridElement = document.getElementById(elementId);
         gridElement.innerHTML = "";  // 기존 내용 지우기
+
         for (let row = 0; row < this.rows; row++) {
             for (let col = 0; col < this.cols; col++) {
                 const tile = document.createElement("div");
@@ -53,7 +67,12 @@ export class Grid {
                 } else if (tileType === "void") {
                     tile.style.backgroundColor = "black";
                 } else {
-                    tile.style.backgroundColor = "lightgray";
+                    tile.style.backgroundColor = "lightgray";  // 발판 타일
+                }
+
+                // 플레이어가 있는 위치면 파란색으로 표시
+                if (this.playerPosition && this.playerPosition.x === col && this.playerPosition.y === row) {
+                    tile.style.backgroundColor = "blue";
                 }
 
                 gridElement.appendChild(tile);
