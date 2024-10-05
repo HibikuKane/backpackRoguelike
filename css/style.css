@@ -1,0 +1,17 @@
+.tile {
+    width: 20px;   /* 각 타일의 크기 */
+    height: 20px;
+    display: inline-block;
+    border: 1px solid black;  /* 각 타일의 경계선 */
+}
+
+#grid {
+    display: grid;
+    grid-template-columns: repeat(11, 20px);  /* 11개의 타일만 가로로 보여주기 */
+    grid-gap: 0;
+}
+
+
+.player {
+    background-color: blue; /* 플레이어 위치를 표시 */
+}
