@@ -4,9 +4,15 @@ import { Player } from './core/player.js';
 import { Camera } from './core/camera.js';  // 카메라 시스템 추가
 
 function initGame() {
-    const rows = 100;  // 맵 크기 설정
-    const cols = 100;
-    const roomCount = 20;  // 방 개수
+    const root = document.documentElement;
+
+    // CSS 변수 가져오기
+    const tileSize = getComputedStyle(root).getPropertyValue('--tile-size').trim();  // 예: '32px'
+    const gridColumns = getComputedStyle(root).getPropertyValue('--grid-columns').trim();  // 예: '11'
+
+    const rows = 50;  // 맵 크기 설정
+    const cols = 50;
+    const roomCount = 16;  // 방 개수
 
     const dungeon = new DungeonGenerator(rows, cols, roomCount);
     dungeon.generateDungeon();
@@ -14,13 +20,13 @@ function initGame() {
     const grid = new Grid(rows, cols);
     grid.grid = dungeon.grid;  // 던전의 그리드를 게임 그리드에 적용
 
-    const player = new Player(50, 50, grid);  // 중앙에 플레이어 배치
+    const player = new Player(grid);  // 플레이어 생성
     dungeon.placePlayer(player);  // 플레이어를 방에 배치
 
-    const camera = new Camera(11, 11, grid, player);  // 기본 카메라 설정 (11x11 타일 범위)
+    const camera = new Camera(parseInt(gridColumns), parseInt(gridColumns) + 4, grid, player);  // 카메라 뷰포트 크기 동적으로 가져옴
     camera.moveToPlayer();
 
-    // 초기 카메라 렌더링
+    // 초기 카메라 렌더링 (CSS 변수 사용)
     camera.renderViewport(document.getElementById('grid'));
 
     // 디버그 모드 체크박스 이벤트 리스너 추가
@@ -32,7 +38,7 @@ function initGame() {
             renderFullMap(grid, player);
         } else {
             // 카메라 모드: 플레이어 주변만 보여줌 (카메라 뷰포트 크기 복원)
-            document.getElementById('grid').style.gridTemplateColumns = `repeat(${camera.viewportWidth}, 20px)`;
+            document.getElementById('grid').style.gridTemplateColumns = `repeat(${camera.viewportWidth}, ${tileSize})`;
             camera.moveToPlayer();
             camera.renderViewport(document.getElementById('grid'));
         }
@@ -69,11 +75,14 @@ window.onload = () => {
 
 // 전체 맵을 보여주는 함수
 function renderFullMap(grid, player) {
+    const root = document.documentElement;
+    const tileSize = getComputedStyle(root).getPropertyValue('--tile-size').trim();  // 예: '32px'
+
     const gridElement = document.getElementById('grid');
     gridElement.innerHTML = "";  // 기존 내용 지우기
 
     // 전체 맵 크기에 맞춰 CSS 속성 조정
-    gridElement.style.gridTemplateColumns = `repeat(${grid.cols}, 20px)`;  // 전체 맵을 보여주도록 설정
+    gridElement.style.gridTemplateColumns = `repeat(${grid.cols}, ${tileSize})`;  // 전체 맵을 보여주도록 설정
 
     for (let row = 0; row < grid.rows; row++) {
         for (let col = 0; col < grid.cols; col++) {

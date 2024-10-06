@@ -1,0 +1,15 @@
+<svg width="64" height="128" viewBox="0 0 64 128" xmlns="http://www.w3.org/2000/svg">
+    <!-- 머리 -->
+    <circle cx="32" cy="24" r="20" fill="#f1c40f" />
+
+    <!-- 몸통 -->
+    <rect x="12" y="44" width="40" height="50" fill="#e74c3c" />
+
+    <!-- 팔 -->
+    <rect x="0" y="50" width="12" height="30" fill="#e74c3c" />
+    <rect x="52" y="50" width="12" height="30" fill="#e74c3c" />
+
+    <!-- 다리 -->
+    <rect x="18" y="94" width="10" height="34" fill="#3498db" />
+    <rect x="36" y="94" width="10" height="34" fill="#3498db" />
+</svg>

@@ -1,7 +1,7 @@
 export class Player {
-    constructor(x, y, grid) {
-        this.x = x;
-        this.y = y;
+    constructor(grid) {
+        this.x = 0;
+        this.y = 0;
         this.grid = grid;
         this.previousPosition = { x: this.x, y: this.y };
         this.updatePlayerPosition();
@@ -17,10 +17,10 @@ export class Player {
 
     move(direction) {
         this.previousPosition = { x: this.x, y: this.y };
-    
+
         let newX = this.x;
         let newY = this.y;
-    
+
         switch (direction) {
             case "up":
                 newY--;  // 한 칸 위로 이동
@@ -35,7 +35,7 @@ export class Player {
                 newX++;  // 한 칸 오른쪽으로 이동
                 break;
         }
-    
+
         const nextTile = this.grid.getTile(newX, newY);
         if (nextTile && nextTile.isWalkable()) {
             this.x = newX;
@@ -44,10 +44,10 @@ export class Player {
         } else {
             alert("You cannot walk here!");
         }
-    
+
         this.updatePlayerPosition();
     }
-    
+
 
     cancelMove() {
         this.x = this.previousPosition.x;
