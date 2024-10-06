@@ -12,7 +12,7 @@ function initGame() {
 
     const rows = 50;  // 맵 크기 설정
     const cols = 50;
-    const roomCount = 16;  // 방 개수
+    const roomCount = 8;  // 방 개수
 
     const dungeon = new DungeonGenerator(rows, cols, roomCount);
     dungeon.generateDungeon();
