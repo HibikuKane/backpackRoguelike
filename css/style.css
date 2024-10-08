@@ -1,17 +1,17 @@
+:root {
+    --tile-size: 32px;   /* 타일 크기를 한 곳에서 정의 */
+    --grid-columns: 11;  /* 카메라 뷰의 기본 가로 칸 수 */
+}
+
 .tile {
-    width: 20px;   /* 각 타일의 크기 */
-    height: 20px;
+    width: var(--tile-size);
+    height: var(--tile-size);
     display: inline-block;
-    border: 1px solid black;  /* 각 타일의 경계선 */
+    border: 1px solid black;
 }
 
 #grid {
     display: grid;
-    grid-template-columns: repeat(11, 20px);  /* 11개의 타일만 가로로 보여주기 */
-    grid-gap: 0;
-}
-
-
-.player {
-    background-color: blue; /* 플레이어 위치를 표시 */
+    grid-template-columns: repeat(var(--grid-columns), var(--tile-size));
+    grid-auto-rows: var(--tile-size);
 }

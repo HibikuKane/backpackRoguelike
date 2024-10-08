@@ -1,11 +1,20 @@
 export class Camera {
-    constructor(viewportWidth, viewportHeight, map, player) {
-        this.viewportWidth = viewportWidth;  // 카메라가 보여줄 가로 타일 개수
-        this.viewportHeight = viewportHeight;  // 카메라가 보여줄 세로 타일 개수
-        this.map = map;
+    constructor(viewportWidth, viewportHeight, grid, player) {
+        this.viewportWidth = viewportWidth;
+        this.viewportHeight = viewportHeight;
+        this.grid = grid;
         this.player = player;
-        this.x = 0;  // 카메라의 시작 X 좌표
-        this.y = 0;  // 카메라의 시작 Y 좌표
+        this.viewportX = 0;  // 초기화
+        this.viewportY = 0;  // 초기화
+    }
+
+    // 카메라 범위 안에 있는지 확인하는 함수
+    isInsideCamera(x, y) {
+        // 카메라가 현재 보여주는 영역 내에 있는지 확인
+        return (
+            x >= this.x && x < this.x + this.viewportWidth &&
+            y >= this.y && y < this.y + this.viewportHeight
+        );
     }
 
     // 플레이어의 위치를 기준으로 카메라 이동
@@ -14,8 +23,8 @@ export class Camera {
         this.y = Math.max(0, this.player.y - Math.floor(this.viewportHeight / 2));
 
         // 맵 끝부분에서 넘어가지 않도록 처리
-        this.x = Math.min(this.x, this.map.cols - this.viewportWidth);
-        this.y = Math.min(this.y, this.map.rows - this.viewportHeight);
+        this.x = Math.min(this.x, this.grid.cols - this.viewportWidth);
+        this.y = Math.min(this.y, this.grid.rows - this.viewportHeight);
     }
 
     // 카메라 뷰포트 내의 타일들만 렌더링
@@ -27,8 +36,8 @@ export class Camera {
                 const tile = document.createElement("div");
                 tile.classList.add("tile");
 
-                const tileType = this.map.grid[row][col].type;
-                tile.style.backgroundColor = this.map.grid[row][col].getColor();
+                const tileType = this.grid.grid[row][col].type;
+                tile.style.backgroundColor = this.grid.grid[row][col].getColor();
 
                 // 플레이어가 있는 위치 표시
                 if (this.player.x === col && this.player.y === row) {
