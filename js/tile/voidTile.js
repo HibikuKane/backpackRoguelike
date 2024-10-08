@@ -12,7 +12,7 @@ export class VoidTile extends Tile {
     }
 
     isWalkable() {
-        return true;  // 공허는 이동 가능
+        return false;
     }
 
     onStep(player) {

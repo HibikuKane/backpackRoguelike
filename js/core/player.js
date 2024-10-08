@@ -1,18 +1,18 @@
 export class Player {
-    constructor(grid) {
+    constructor(grid, turnManager) {  // TurnManager 객체 추가
         this.x = 0;
         this.y = 0;
         this.grid = grid;
+        this.turnManager = turnManager;  // TurnManager를 저장
         this.previousPosition = { x: this.x, y: this.y };
         this.updatePlayerPosition();
     }
 
-    // 플레이어 위치 설정 함수 추가
     setPosition(x, y) {
-        this.previousPosition = { x: this.x, y: this.y };  // 이전 위치 저장
-        this.x = x;  // 새로운 x 좌표 설정
-        this.y = y;  // 새로운 y 좌표 설정
-        this.updatePlayerPosition();  // 플레이어 위치 업데이트
+        this.previousPosition = { x: this.x, y: this.y };
+        this.x = x;
+        this.y = y;
+        this.updatePlayerPosition();
     }
 
     move(direction) {
@@ -23,16 +23,16 @@ export class Player {
 
         switch (direction) {
             case "up":
-                newY--;  // 한 칸 위로 이동
+                newY--;
                 break;
             case "down":
-                newY++;  // 한 칸 아래로 이동
+                newY++;
                 break;
             case "left":
-                newX--;  // 한 칸 왼쪽으로 이동
+                newX--;
                 break;
             case "right":
-                newX++;  // 한 칸 오른쪽으로 이동
+                newX++;
                 break;
         }
 
@@ -40,13 +40,23 @@ export class Player {
         if (nextTile && nextTile.isWalkable()) {
             this.x = newX;
             this.y = newY;
-            nextTile.onStep(this);  // 타일의 특수 동작 실행
+            nextTile.onStep(this);
         } else {
             alert("You cannot walk here!");
         }
 
         this.updatePlayerPosition();
+        this.endTurn();  // 턴 종료
     }
+
+    endTurn() {
+        console.log("Before setTimeout");  // 로그 추가
+        setTimeout(() => {
+            console.log("Player finished action, next turn!");  // 로그 확인
+            this.turnManager.processTurn();  // TurnManager에 턴 종료 알림
+        }, 200);
+    }
+
 
 
     cancelMove() {
@@ -56,6 +66,6 @@ export class Player {
     }
 
     updatePlayerPosition() {
-        this.grid.renderGrid('grid', this);  // 그리드를 다시 렌더링
+        this.grid.renderGrid('grid', this);
     }
 }
